@@ -6,7 +6,6 @@ using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
 using OpenIddict.Abstractions;
 using OpenIddict.Server.AspNetCore;
-using ShieldNet.Domain.User;
 using ShieldNet.WebHost.Helpers;
 using ShieldNet.WebHost.ViewModels;
 using System.Security.Claims;

@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShieldNet.Domain", "src\ShieldNet.Domain\ShieldNet.Domain.csproj", "{9CE1B0D0-2A46-41CF-896A-7A8F476A2E40}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShieldNet.WebHost", "src\ShieldNet.WebHost\ShieldNet.WebHost.csproj", "{E2152842-E5E7-41F4-AB01-DF1E6DE3FA7D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShieldNet.Infras", "src\ShieldNet.Infras\ShieldNet.Infras.csproj", "{723410D4-93DF-4A65-AD76-13CB1FB8334D}"
@@ -19,16 +17,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "shared", "shared", "{D7B342
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShieldNet.DependencyInjection", "src\shared\ShieldNet.DependencyInjection\ShieldNet.DependencyInjection.csproj", "{67AE1FC2-FC71-4D3C-802B-11C221125661}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShieldNet.Domain", "src\ShieldNet.Domain\ShieldNet.Domain.csproj", "{B035FE8E-7624-4432-AC23-FB0314E66755}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9CE1B0D0-2A46-41CF-896A-7A8F476A2E40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9CE1B0D0-2A46-41CF-896A-7A8F476A2E40}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9CE1B0D0-2A46-41CF-896A-7A8F476A2E40}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9CE1B0D0-2A46-41CF-896A-7A8F476A2E40}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E2152842-E5E7-41F4-AB01-DF1E6DE3FA7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E2152842-E5E7-41F4-AB01-DF1E6DE3FA7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E2152842-E5E7-41F4-AB01-DF1E6DE3FA7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -49,18 +45,22 @@ Global
 		{67AE1FC2-FC71-4D3C-802B-11C221125661}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67AE1FC2-FC71-4D3C-802B-11C221125661}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67AE1FC2-FC71-4D3C-802B-11C221125661}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B035FE8E-7624-4432-AC23-FB0314E66755}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B035FE8E-7624-4432-AC23-FB0314E66755}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B035FE8E-7624-4432-AC23-FB0314E66755}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B035FE8E-7624-4432-AC23-FB0314E66755}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{9CE1B0D0-2A46-41CF-896A-7A8F476A2E40} = {0333E659-641D-42F4-9E25-295294642420}
 		{E2152842-E5E7-41F4-AB01-DF1E6DE3FA7D} = {0333E659-641D-42F4-9E25-295294642420}
 		{723410D4-93DF-4A65-AD76-13CB1FB8334D} = {0333E659-641D-42F4-9E25-295294642420}
 		{491DA3DB-C713-4A56-ADD2-47D2776342DC} = {0333E659-641D-42F4-9E25-295294642420}
 		{82BC7474-F5C5-41AF-90A5-ED571A5667D7} = {0333E659-641D-42F4-9E25-295294642420}
 		{D7B34223-6F0A-47CD-855E-68E61F54A99D} = {0333E659-641D-42F4-9E25-295294642420}
 		{67AE1FC2-FC71-4D3C-802B-11C221125661} = {D7B34223-6F0A-47CD-855E-68E61F54A99D}
+		{B035FE8E-7624-4432-AC23-FB0314E66755} = {0333E659-641D-42F4-9E25-295294642420}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {041CC94D-F61E-43F0-9C31-943A53DA84E8}

@@ -76,12 +76,12 @@ public abstract class CachedServiceProviderBase : ICachedServiceProviderBase
 
 public interface ICachedServiceProvider : ICachedServiceProviderBase
 {
-    
+
 }
 
 public interface ICachedTransparentServiceProvider : ICachedServiceProviderBase
 {
-    
+
 }
 
 public class CachedServiceProvider : CachedServiceProviderBase, ICachedServiceProvider

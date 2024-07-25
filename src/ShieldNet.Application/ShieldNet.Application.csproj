@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ShieldNet.Domain\ShieldNet.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

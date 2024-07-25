@@ -13,7 +13,7 @@ namespace ShieldNet.Infras.Data.Contexts
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-           
+
         }
     }
 }

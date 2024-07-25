@@ -1,11 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using OpenIddict.Abstractions;
-using Polly;
-using ShieldNet.Domain.User;
 using ShieldNet.Infras.Data.Contexts;
-using System.Threading;
 
 namespace ShieldNet.WebHost
 {
@@ -40,7 +35,7 @@ namespace ShieldNet.WebHost
                     EmailConfirmed = true,
                     Id = 9999999,
                     LockoutEnabled = false,
-                    
+
                 };
                 var result = await userManager.CreateAsync(user, "Admin#123");
                 if (result.Succeeded)

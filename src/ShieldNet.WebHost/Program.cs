@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using OpenIddict.Validation.AspNetCore;
 using ShieldNet.DependencyInjection.Cache;
 using ShieldNet.DependencyInjection.Lazy;
-using ShieldNet.Domain.User;
 using ShieldNet.Infras.Data.Contexts;
+using ShieldNet.Infras.Services;
 using ShieldNet.OAuth2.Endpoint;
+
 
 namespace ShieldNet.WebHost
 {
@@ -14,7 +16,6 @@ namespace ShieldNet.WebHost
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            var connectionString = builder.Configuration.GetConnectionString("IdentityDataContextConnection") ?? throw new InvalidOperationException("Connection string 'IdentityDataContextConnection' not found.");
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -28,10 +29,11 @@ namespace ShieldNet.WebHost
                 options.UseOpenIddict();
             });
 
+
             builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
-                //.AddDefaultUI();
+            //.AddDefaultUI();
 
 
             var oiddBuilder = builder.Services.AddOpenIddict();
@@ -52,7 +54,7 @@ namespace ShieldNet.WebHost
                 options
                     .SetTokenEndpointUris("/connect/token")
                     .SetAuthorizationEndpointUris("/connect/authorize");
-                   
+
                 options.RegisterScopes("api");
 
                 options.AddEphemeralEncryptionKey()
@@ -70,6 +72,7 @@ namespace ShieldNet.WebHost
             });
 
             {
+                builder.Services.AddScoped<IEmailSender, EmailSender>();
                 builder.Services.AddTransient<ILazyServiceProvider, LazyServiceProvider>();
                 builder.Services.AddScoped<ICachedServiceProvider, CachedServiceProvider>();
                 builder.Services.AddTransient<ICachedTransparentServiceProvider, CachedTransparentServiceProvider>();
@@ -84,6 +87,11 @@ namespace ShieldNet.WebHost
             builder.Services.AddAuthentication(options =>
             {
                 options.DefaultScheme = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme;
+            });
+
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Identity/Account/Login";
             });
 
             var app = builder.Build();

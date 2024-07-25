@@ -1,9 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using OpenIddict.Abstractions;
 using ShieldNet.DependencyInjection.Lazy;
-using ShieldNet.OAuth2.Endpoint.Controllers;
 using ShieldNet.WebHost.Controllers;
 using ShieldNet.WebHost.Models;
 using System.Diagnostics;
@@ -68,6 +65,6 @@ public class TestService
     public void Test(string call)
     {
         _logger.LogInformation(call);
-        _logger.LogInformation(this.GetHashCode()+"");
+        _logger.LogInformation(this.GetHashCode() + "");
     }
 }
