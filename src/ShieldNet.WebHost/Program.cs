@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OpenIddict.Validation.AspNetCore;
+using ShieldNet.DependencyInjection.Cache;
+using ShieldNet.DependencyInjection.Lazy;
 using ShieldNet.Domain.User;
 using ShieldNet.Infras.Data.Contexts;
-using Vite.AspNetCore;
+using ShieldNet.OAuth2.Endpoint;
 
 namespace ShieldNet.WebHost
 {
@@ -12,17 +14,12 @@ namespace ShieldNet.WebHost
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            var connectionString = builder.Configuration.GetConnectionString("IdentityDataContextConnection") ?? throw new InvalidOperationException("Connection string 'IdentityDataContextConnection' not found.");
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
-
-            builder.Services.AddViteServices(options =>
-            {
-                options.Server.AutoRun = true;
-                options.Server.Https = true;
-            });
-
+            builder.Services.AddControllers().AddApplicationPart(typeof(AssemblyRef).Assembly);
 
             builder.Services.AddDbContext<AppDbContext>(options =>
             {
@@ -33,8 +30,8 @@ namespace ShieldNet.WebHost
 
             builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
                 .AddEntityFrameworkStores<AppDbContext>()
-                .AddDefaultTokenProviders()
-                .AddDefaultUI();
+                .AddDefaultTokenProviders();
+                //.AddDefaultUI();
 
 
             var oiddBuilder = builder.Services.AddOpenIddict();
@@ -72,6 +69,16 @@ namespace ShieldNet.WebHost
 
             });
 
+            {
+                builder.Services.AddTransient<ILazyServiceProvider, LazyServiceProvider>();
+                builder.Services.AddScoped<ICachedServiceProvider, CachedServiceProvider>();
+                builder.Services.AddTransient<ICachedTransparentServiceProvider, CachedTransparentServiceProvider>();
+
+                builder.Services.AddScoped<TestService>();
+                builder.Services.AddTransient<WrapperService>();
+
+            }
+
             builder.Services.AddHostedService<TestDataHostedService>();
 
             builder.Services.AddAuthentication(options =>
@@ -102,12 +109,6 @@ namespace ShieldNet.WebHost
                                            name: "default",
                                            pattern: "{controller=Home}/{action=Index}/{id?}");
                 });
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseWebSockets();
-                // Use Vite Dev Server as middleware.
-                app.UseViteDevelopmentServer(true);
-            }
             app.Run();
         }
     }
