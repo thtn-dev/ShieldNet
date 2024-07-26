@@ -10,4 +10,8 @@
     <ProjectReference Include="..\ShieldNet.Domain\ShieldNet.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Identity\" />
+  </ItemGroup>
+
 </Project>

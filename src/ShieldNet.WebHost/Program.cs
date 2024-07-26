@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -36,41 +37,50 @@ namespace ShieldNet.WebHost
             //.AddDefaultUI();
 
 
-            var oiddBuilder = builder.Services.AddOpenIddict();
-            oiddBuilder.AddCore(options =>
+            builder.Services.AddOpenIddict(oiddBuilder =>
             {
-                options.UseEntityFrameworkCore()
-                    .UseDbContext<AppDbContext>();
+                oiddBuilder.AddCore(options =>
+                {
+                    options.UseEntityFrameworkCore()
+                        .UseDbContext<AppDbContext>();
+                });
+
+                oiddBuilder.AddServer(options =>
+                {
+                    options
+                        .AllowClientCredentialsFlow()
+                        .AllowAuthorizationCodeFlow()
+                        .AllowImplicitFlow()
+                        .AllowPasswordFlow()
+                        .AllowRefreshTokenFlow();
+
+                    options
+                        .SetTokenEndpointUris("/connect/token")
+                        .SetAuthorizationEndpointUris("/connect/authorize");
+
+                    options.RegisterScopes("api");
+
+                    options.AddEphemeralEncryptionKey()
+                            .AddEphemeralSigningKey()
+                            .DisableAccessTokenEncryption()
+                            ;
+
+                    options.UseAspNetCore()
+                        .EnableTokenEndpointPassthrough()
+                        .EnableAuthorizationEndpointPassthrough()
+                        .EnableLogoutEndpointPassthrough()
+                        .EnableUserinfoEndpointPassthrough();
+                });
+
+                oiddBuilder.AddValidation(options =>
+                {
+                    options.UseLocalServer();
+                    options.UseAspNetCore();
+
+                });
+
             });
-            oiddBuilder.AddServer(options =>
-            {
-                options
-                    .AllowClientCredentialsFlow()
-                    .AllowAuthorizationCodeFlow()
-                    .AllowImplicitFlow()
-                    .AllowPasswordFlow()
-                    .AllowRefreshTokenFlow();
-
-                options
-                    .SetTokenEndpointUris("/connect/token")
-                    .SetAuthorizationEndpointUris("/connect/authorize");
-
-                options.RegisterScopes("api");
-
-                options.AddEphemeralEncryptionKey()
-                        .AddEphemeralSigningKey()
-                        .DisableAccessTokenEncryption()
-                        ;
-
-                options.UseAspNetCore()
-                    .EnableTokenEndpointPassthrough()
-                    .EnableAuthorizationEndpointPassthrough()
-                    .EnableLogoutEndpointPassthrough()
-                    .EnableUserinfoEndpointPassthrough();
-
-
-            });
-
+            
             {
                 builder.Services.AddScoped<IEmailSender, EmailSender>();
                 builder.Services.AddTransient<ILazyServiceProvider, LazyServiceProvider>();
@@ -92,6 +102,12 @@ namespace ShieldNet.WebHost
             builder.Services.ConfigureApplicationCookie(options =>
             {
                 options.LoginPath = "/Identity/Account/Login";
+                options.Cookie.Name = "__shieldnet.app.auth";
+            });
+
+            builder.Services.AddAntiforgery(options =>
+            {
+                options.Cookie.Name = "__shieldnet.app.xsrf";
             });
 
             var app = builder.Build();
@@ -111,11 +127,11 @@ namespace ShieldNet.WebHost
                 .UseAuthorization()
                 .UseEndpoints(endpoints =>
                 {
+                   
                     endpoints.MapRazorPages();
                     endpoints.MapControllers();
-                    endpoints.MapControllerRoute(
-                                           name: "default",
-                                           pattern: "{controller=Home}/{action=Index}/{id?}");
+                    endpoints.MapControllerRoute(name: "default",
+                                pattern: "{controller=Home}/{action=Index}/{id?}");
                 });
             app.Run();
         }

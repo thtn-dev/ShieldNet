@@ -7,17 +7,22 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShieldNet.WebHost", "src\Sh
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShieldNet.Infras", "src\ShieldNet.Infras\ShieldNet.Infras.csproj", "{723410D4-93DF-4A65-AD76-13CB1FB8334D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShieldNet.Application", "src\ShieldNet.Application\ShieldNet.Application.csproj", "{491DA3DB-C713-4A56-ADD2-47D2776342DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShieldNet.Application", "src\ShieldNet.Application\ShieldNet.Application.csproj", "{491DA3DB-C713-4A56-ADD2-47D2776342DC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0333E659-641D-42F4-9E25-295294642420}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShieldNet.OAuth2.Endpoint", "src\ShieldNet.OAuth2.Endpoint\ShieldNet.OAuth2.Endpoint.csproj", "{82BC7474-F5C5-41AF-90A5-ED571A5667D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShieldNet.OAuth2.Endpoint", "src\ShieldNet.OAuth2.Endpoint\ShieldNet.OAuth2.Endpoint.csproj", "{82BC7474-F5C5-41AF-90A5-ED571A5667D7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "shared", "shared", "{D7B34223-6F0A-47CD-855E-68E61F54A99D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShieldNet.DependencyInjection", "src\shared\ShieldNet.DependencyInjection\ShieldNet.DependencyInjection.csproj", "{67AE1FC2-FC71-4D3C-802B-11C221125661}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShieldNet.DependencyInjection", "src\shared\ShieldNet.DependencyInjection\ShieldNet.DependencyInjection.csproj", "{67AE1FC2-FC71-4D3C-802B-11C221125661}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShieldNet.Domain", "src\ShieldNet.Domain\ShieldNet.Domain.csproj", "{B035FE8E-7624-4432-AC23-FB0314E66755}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_SolutionItems", "_SolutionItems", "{78BF40F6-3CC2-40C8-8E02-2188C4F314A4}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
