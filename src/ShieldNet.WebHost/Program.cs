@@ -1,139 +1,22 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.EntityFrameworkCore;
-using OpenIddict.Validation.AspNetCore;
-using ShieldNet.DependencyInjection.Cache;
-using ShieldNet.DependencyInjection.Lazy;
-using ShieldNet.Infras.Data.Contexts;
-using ShieldNet.Infras.Services;
-using ShieldNet.OAuth2.Endpoint;
+using ShieldNet.WebHost.Extensions;
 
 
 namespace ShieldNet.WebHost
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-            builder.Services.AddControllersWithViews();
-            builder.Services.AddRazorPages();
-            builder.Services.AddControllers().AddApplicationPart(typeof(AssemblyRef).Assembly);
-
-            builder.Services.AddDbContext<AppDbContext>(options =>
-            {
-                options.UseInMemoryDatabase(nameof(AppDbContext));
-
-                options.UseOpenIddict();
-            });
-
-
-            builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
-                .AddEntityFrameworkStores<AppDbContext>()
-                .AddDefaultTokenProviders();
-            //.AddDefaultUI();
-
-
-            builder.Services.AddOpenIddict(oiddBuilder =>
-            {
-                oiddBuilder.AddCore(options =>
-                {
-                    options.UseEntityFrameworkCore()
-                        .UseDbContext<AppDbContext>();
-                });
-
-                oiddBuilder.AddServer(options =>
-                {
-                    options
-                        .AllowClientCredentialsFlow()
-                        .AllowAuthorizationCodeFlow()
-                        .AllowImplicitFlow()
-                        .AllowPasswordFlow()
-                        .AllowRefreshTokenFlow();
-
-                    options
-                        .SetTokenEndpointUris("/connect/token")
-                        .SetAuthorizationEndpointUris("/connect/authorize");
-
-                    options.RegisterScopes("api");
-
-                    options.AddEphemeralEncryptionKey()
-                            .AddEphemeralSigningKey()
-                            .DisableAccessTokenEncryption()
-                            ;
-
-                    options.UseAspNetCore()
-                        .EnableTokenEndpointPassthrough()
-                        .EnableAuthorizationEndpointPassthrough()
-                        .EnableLogoutEndpointPassthrough()
-                        .EnableUserinfoEndpointPassthrough();
-                });
-
-                oiddBuilder.AddValidation(options =>
-                {
-                    options.UseLocalServer();
-                    options.UseAspNetCore();
-
-                });
-
-            });
-            
-            {
-                builder.Services.AddScoped<IEmailSender, EmailSender>();
-                builder.Services.AddTransient<ILazyServiceProvider, LazyServiceProvider>();
-                builder.Services.AddScoped<ICachedServiceProvider, CachedServiceProvider>();
-                builder.Services.AddTransient<ICachedTransparentServiceProvider, CachedTransparentServiceProvider>();
-
-                builder.Services.AddScoped<TestService>();
-                builder.Services.AddTransient<WrapperService>();
-
-            }
-
-            builder.Services.AddHostedService<TestDataHostedService>();
-
-            builder.Services.AddAuthentication(options =>
-            {
-                options.DefaultScheme = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme;
-            });
-
-            builder.Services.ConfigureApplicationCookie(options =>
-            {
-                options.LoginPath = "/Identity/Account/Login";
-                options.Cookie.Name = "__shieldnet.app.auth";
-            });
-
-            builder.Services.AddAntiforgery(options =>
-            {
-                options.Cookie.Name = "__shieldnet.app.xsrf";
-            });
-
+            builder.Host.ConfigureHost();
+           
+            builder.Services.RegisterAppServices(builder.Configuration);
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
-            if (!app.Environment.IsDevelopment())
-            {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
+            app.UseAppPipelines();
 
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseAuthentication();
-            app.UseRouting()
-                .UseAuthorization()
-                .UseEndpoints(endpoints =>
-                {
-                   
-                    endpoints.MapRazorPages();
-                    endpoints.MapControllers();
-                    endpoints.MapControllerRoute(name: "default",
-                                pattern: "{controller=Home}/{action=Index}/{id?}");
-                });
-            app.Run();
+            await app.RunAsync();
         }
     }
 }

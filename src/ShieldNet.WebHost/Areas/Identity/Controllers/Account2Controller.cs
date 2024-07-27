@@ -7,7 +7,7 @@ using ShieldNet.WebHost.Areas.Identity.ViewModels;
 namespace ShieldNet.WebHost.Areas.Identity.Controllers
 {
     [Area("Identity")]
-    [Route("[area]/[controller]/{action=Index}")]
+    [Route("[controller]/{action=Index}")]
     public class Account2Controller : Controller
     {
         public ILazyServiceProvider LazyServiceProvider { get; }
